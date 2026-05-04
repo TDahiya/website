@@ -13,16 +13,7 @@ const EXPERIENCE = [
         description: "Led team of 2 data interns to automate data collection across social media platforms, reducing reporting time by 40% and enhancing data reliability by 80%. Developed ETL pipelines and Tableau dashboards improving campaign ROI by 22%.",
         technologies: ["Python", "Selenium", "Tableau", "SQL"]
     },
-    {
-        id: 2,
-        title: "Data Analyst",
-        company: "VSD",
-        location: "Delhi, India",
-        startDate: "Jun 2022",
-        endDate: "Nov 2024",
-        description: "Automated repetitive reporting tasks using Python, resulting in 30% less workload. Conducted trend analysis on 50+ data sets leading to 5000 Euro in annual cost savings.",
-        technologies: ["Python", "Pandas", "Excel", "Data Analysis"]
-    }
+
 ];
 
 const EDUCATION = [
