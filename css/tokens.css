@@ -1,0 +1,197 @@
+/* ============================================================================
+   TOKENS — the whole design system. Nothing hard-codes a colour or a gap.
+   ----------------------------------------------------------------------------
+   PALETTE: five neons, each with one job. A colour with no job was demoted.
+   Every value below was picked against measured WCAG contrast, not taste.
+
+     Azure     #008BF8  PRIMARY / INTERACTIVE
+                        Links, buttons, focus rings, the nav indicator.
+                        5.64:1 on dark. The only hue that both passes as text
+                        and already means "clickable" to everyone.
+
+     Fuchsia   #DC0073  LIVE & NOW
+                        The Kaia live dot, the try-it CTA, current role.
+                        The inverse of the rest: 4.89:1 on WHITE, so it is the
+                        one accent that survives light mode unchanged.
+                        Rationed — at most two uses per screen.
+
+     Malachite #04E762  MEASURED RESULT
+                        Only numbers that came out of an eval wear this:
+                        93.3% recall, 0.20s first-audio, macro-F1 0.8751.
+                        11.75:1 on dark. Green already means "passed" in CI.
+
+     Amber     #F5B700  RESEARCH / NOT YET SHIPPED
+                        The ISCE block, "exposure"-level skills, WIP.
+                        Separates studied-this from shipped-this.
+
+     Lime      #89FC00  DEMOTED — no job of its own.
+                        Same hue family as Malachite, so two greens would
+                        dilute "green = measured". Survives only as the
+                        hover-lift of Malachite in dark mode.
+
+   Malachite, Amber and Lime score 1.3–1.8:1 on white — unusable as text there.
+   Each therefore has a darkened light-mode twin, hue and saturation preserved,
+   lightness lowered until it clears 4.5:1. Fuchsia needed no twin.
+
+   SPACING: every gap is a multiple of 8. --sp-1 is 8px. No exceptions, except
+   --sp-h (4px) for optical nudges inside a component, never between them.
+   ============================================================================ */
+
+:root {
+  /* ---- raw palette: the five, untouched ---- */
+  --neon-azure:     #008BF8;
+  --neon-fuchsia:   #DC0073;
+  --neon-malachite: #04E762;
+  --neon-amber:     #F5B700;
+  --neon-lime:      #89FC00;
+
+  /* ---- light-mode twins (derived, 4.5:1 on white) ---- */
+  --ink-azure:      #0078D6;
+  --ink-malachite:  #02893A;
+  --ink-amber:      #977000;
+
+  /* ---- 8pt spacing scale ---- */
+  --sp-h:  4px;   /* half — optical only, inside a component */
+  --sp-1:  8px;
+  --sp-2:  16px;
+  --sp-3:  24px;
+  --sp-4:  32px;
+  --sp-5:  40px;
+  --sp-6:  48px;
+  --sp-8:  64px;
+  --sp-10: 80px;
+  --sp-12: 96px;
+  --sp-16: 128px;
+  --sp-20: 160px;
+
+  /* ---- type ---- */
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --fs-micro: 0.6875rem;  /* 11 — eyebrows, tags */
+  --fs-small: 0.8125rem;  /* 13 — captions, meta */
+  --fs-body:  0.9375rem;  /* 15 — body */
+  --fs-lead:  1.0625rem;  /* 17 — intro paragraphs */
+  --fs-h3:    1.25rem;    /* 20 */
+  --fs-h2:    clamp(1.5rem, 1.1rem + 1.6vw, 2rem);
+  --fs-h1:    clamp(2.25rem, 1.4rem + 3.6vw, 3.75rem);
+
+  --lh-tight: 1.15;
+  --lh-snug:  1.35;
+  --lh-body:  1.65;
+
+  --tr-tight: -0.022em;
+  --tr-flat:  -0.011em;
+  --tr-wide:  0.08em;
+
+  /* ---- geometry ---- */
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 16px;
+  --r-xl: 24px;
+  --grid-cell: 32px;          /* background grid pitch — 4 × 8 */
+  --rail: 60px;               /* navigator rail width */
+  --measure: 68ch;
+  --page: 1120px;
+
+  /* ---- motion ---- */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --fast: 140ms;
+  --med:  260ms;
+  --slow: 520ms;
+}
+
+/* ============================= DARK (default) ============================= */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg:          #0B0C0E;
+  --bg-raised:   #121419;
+  --bg-sunken:   #08090B;
+  --bg-hover:    #181B22;
+
+  --line:        rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(255, 255, 255, 0.17);
+  --grid-line:   rgba(255, 255, 255, 0.035);
+
+  --text:        #F2F4F7;
+  --text-muted:  #9AA3B2;
+  --text-faint:  #626B7A;
+
+  /* semantic accents → the jobs */
+  --accent:        var(--neon-azure);
+  --accent-weak:   rgba(0, 139, 248, 0.14);
+  --accent-on:     #00121F;
+
+  --live:          var(--neon-fuchsia);
+  --live-weak:     rgba(220, 0, 115, 0.16);
+  --live-on:       #FFFFFF;
+
+  --measured:      var(--neon-malachite);
+  --measured-lift: var(--neon-lime);     /* Lime's only remaining job */
+  --measured-weak: rgba(4, 231, 98, 0.13);
+  --measured-on:   #002D12;
+
+  --research:      var(--neon-amber);
+  --research-weak: rgba(245, 183, 0, 0.14);
+  --research-on:   #231A00;
+
+  --shadow: 0 1px 2px rgba(0,0,0,.5), 0 8px 32px rgba(0,0,0,.42);
+  --glow:   0 0 0 1px var(--line-strong), 0 12px 48px rgba(0,0,0,.6);
+}
+
+/* ================================= LIGHT ================================== */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg:          #FFFFFF;
+  --bg-raised:   #FAFAFB;
+  --bg-sunken:   #F4F5F7;
+  --bg-hover:    #F0F1F4;
+
+  --line:        rgba(10, 12, 16, 0.10);
+  --line-strong: rgba(10, 12, 16, 0.20);
+  --grid-line:   rgba(10, 12, 16, 0.045);
+
+  --text:        #0E1116;
+  --text-muted:  #525B68;
+  --text-faint:  #818A98;
+
+  --accent:        var(--ink-azure);
+  --accent-weak:   rgba(0, 120, 214, 0.10);
+  --accent-on:     #FFFFFF;
+
+  --live:          var(--neon-fuchsia);   /* unchanged — it already passes */
+  --live-weak:     rgba(220, 0, 115, 0.10);
+  --live-on:       #FFFFFF;
+
+  --measured:      var(--ink-malachite);
+  --measured-lift: var(--ink-malachite);
+  --measured-weak: rgba(2, 137, 58, 0.10);
+  --measured-on:   #FFFFFF;
+
+  --research:      var(--ink-amber);
+  --research-weak: rgba(151, 112, 0, 0.10);
+  --research-on:   #FFFFFF;
+
+  --shadow: 0 1px 2px rgba(10,12,16,.06), 0 8px 28px rgba(10,12,16,.07);
+  --glow:   0 0 0 1px var(--line-strong), 0 12px 40px rgba(10,12,16,.10);
+}
+
+/* Follow the OS until the visitor states a preference. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --bg: #FFFFFF; --bg-raised: #FAFAFB; --bg-sunken: #F4F5F7; --bg-hover: #F0F1F4;
+    --line: rgba(10,12,16,.10); --line-strong: rgba(10,12,16,.20); --grid-line: rgba(10,12,16,.045);
+    --text: #0E1116; --text-muted: #525B68; --text-faint: #818A98;
+    --accent: var(--ink-azure); --accent-weak: rgba(0,120,214,.10); --accent-on: #FFFFFF;
+    --live: var(--neon-fuchsia); --live-weak: rgba(220,0,115,.10); --live-on: #FFFFFF;
+    --measured: var(--ink-malachite); --measured-lift: var(--ink-malachite);
+    --measured-weak: rgba(2,137,58,.10); --measured-on: #FFFFFF;
+    --research: var(--ink-amber); --research-weak: rgba(151,112,0,.10); --research-on: #FFFFFF;
+    --shadow: 0 1px 2px rgba(10,12,16,.06), 0 8px 28px rgba(10,12,16,.07);
+    --glow: 0 0 0 1px var(--line-strong), 0 12px 40px rgba(10,12,16,.10);
+  }
+}
