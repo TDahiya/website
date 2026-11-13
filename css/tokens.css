@@ -106,10 +106,15 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  --bg:          #0B0C0E;
-  --bg-raised:   #121419;
-  --bg-sunken:   #08090B;
-  --bg-hover:    #181B22;
+  --bg:          #09090B;
+  --bg-raised:   #101114;
+  --bg-sunken:   #0C0C0F;
+  --bg-hover:    #17181C;
+  --nav-bg:      rgba(20, 21, 25, 0.72);
+  --halo:        rgba(0, 139, 248, 0.09);
+  --text-fade:   #4A525F;          /* the tail of the hero gradient */
+  --solid:       #FAFAFA;          /* filled pill button */
+  --solid-on:    #0B0B0D;
 
   --line:        rgba(255, 255, 255, 0.09);
   --line-strong: rgba(255, 255, 255, 0.17);
@@ -149,6 +154,11 @@
   --bg-raised:   #FAFAFB;
   --bg-sunken:   #F4F5F7;
   --bg-hover:    #F0F1F4;
+  --nav-bg:      rgba(255, 255, 255, 0.78);
+  --halo:        rgba(0, 120, 214, 0.07);
+  --text-fade:   #A8AFBA;
+  --solid:       #0E1116;
+  --solid-on:    #FFFFFF;
 
   --line:        rgba(10, 12, 16, 0.10);
   --line-strong: rgba(10, 12, 16, 0.20);
@@ -184,6 +194,8 @@
   :root:not([data-theme="dark"]) {
     color-scheme: light;
     --bg: #FFFFFF; --bg-raised: #FAFAFB; --bg-sunken: #F4F5F7; --bg-hover: #F0F1F4;
+    --nav-bg: rgba(255,255,255,.78); --halo: rgba(0,120,214,.07); --text-fade: #A8AFBA;
+    --solid: #0E1116; --solid-on: #FFFFFF;
     --line: rgba(10,12,16,.10); --line-strong: rgba(10,12,16,.20); --grid-line: rgba(10,12,16,.045);
     --text: #0E1116; --text-muted: #525B68; --text-faint: #818A98;
     --accent: var(--ink-azure); --accent-weak: rgba(0,120,214,.10); --accent-on: #FFFFFF;
