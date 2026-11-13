@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM Safety Research · Tanishq Dahiya</title>
+<meta name="description" content="MSc practicum: 1,645 controlled paraphrases across 5 frontier LLMs, scored by a 3-judge G-EVAL consensus. 60.2% strict inconsistency, and the safest models were the least consistent.">
+<meta name="color-scheme" content="dark light">
+<meta property="og:title" content="LLM Safety Research · Tanishq Dahiya">
+<meta property="og:description" content="MSc practicum: 1,645 controlled paraphrases across 5 frontier LLMs, scored by a 3-judge G-EVAL consensus. 60.2% strict inconsistency, and the safest models were the least consistent.">
+<meta property="og:type" content="website">
+<script>
+  try {
+    var t = localStorage.getItem('theme');
+    document.documentElement.setAttribute('data-theme',
+      t || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/tokens.css?v=3">
+<link rel="stylesheet" href="./css/style.css?v=3">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23008BF8'/><text x='16' y='23' font-family='monospace' font-size='19' font-weight='600' fill='%23fff' text-anchor='middle'>T</text></svg>">
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="grid-bg" aria-hidden="true"></div>
+<div class="grid-glow" aria-hidden="true"></div>
+
+  <nav class="nav" aria-label="Primary">
+    <a class="nav-mark" href="index.html"><span class="dot"></span><span>TANISHQ.AI</span></a>
+    <span class="nav-sep"></span>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Index</a>
+      <a class="nav-link" href="work.html" aria-current="true">Work</a>
+      <a class="nav-link" href="stack.html">Stack</a>
+    </div>
+    <span class="nav-sep"></span>
+    <div class="nav-tools">
+      <button class="icon-btn" id="open-palette" aria-label="Search and jump (Control K)" title="Search — &#8984;K">
+        <svg aria-hidden="true"><use href="#i-search"/></svg>
+      </button>
+      <button class="icon-btn" id="theme-toggle" aria-label="Switch colour theme" title="Switch theme">
+        <svg aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </nav>
+
+<main class="page narrow" id="main">
+  <a class="back" href="work.html"><svg aria-hidden="true"><use href="#i-back"/></svg> All work</a>
+
+  <header class="prose-head" data-job="research">
+    <span class="eyebrow">Research &#183; MSc practicum, DCU</span>
+    <h1>LLM safety is not one property. It is two.</h1>
+    <p class="prose-lede">Safety benchmarks test one phrasing at a time. If a model refuses one wording and complies with a semantically identical rewrite, nothing catches it. I built a benchmark to expose that gap across production models.</p>
+    <div class="cta-row">
+      <a class="btn btn-solid" href="https://github.com/TDahiya/llm-safety-adversarial" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-github"/></svg> Source</a>
+    </div>
+  </header>
+
+  <div class="prose">
+    <h2>Holding meaning constant, moving only the words</h2>
+    <p>
+      329 adversarial seed prompts grounded in 14 MITRE ATT&amp;CK techniques, expanded to
+      <strong>1,645 variants</strong> through four controlled paraphrasing strategies: lexical
+      substitution, logic reversal, syntactic restructuring and contextual reframing. Every
+      variant means the same thing. Only the wording moves.
+    </p>
+
+    <h2>Five agents, no human in the loop</h2>
+    <p>
+      Five autonomous query agents each called a different production LLM API, with independent
+      rate limiting, structured JSON output parsing and fault-tolerant error recovery. They ran in
+      parallel and processed <span class="m">8,225</span> requests without human intervention.
+    </p>
+    <p>
+      Scoring used a three-judge G-EVAL consensus: each AI judge independently evaluated every
+      response and voted by majority to produce a final safety verdict.
+      <span class="m">24,675</span> structured verdicts in total.
+    </p>
+
+    <div class="numbers">
+      <div><span class="n">1,645</span><span class="l">paraphrase variants</span></div>
+      <div><span class="n">8,225</span><span class="l">responses scored</span></div>
+      <div><span class="n">24,675</span><span class="l">judge verdicts</span></div>
+      <div><span class="n">60.2%</span><span class="l">strict inconsistency</span></div>
+    </div>
+
+    <h2>The result I did not expect</h2>
+    <p>
+      I proposed the <strong>IIR</strong> metric, Intent-level Inconsistency Rate, to measure how
+      often a safety decision changes across semantically equivalent phrasings of one intent.
+      Strict inconsistency came out at <span class="m">60.2%</span>.
+    </p>
+    <p>
+      Then the models that scored <em>best</em> on safety turned out to be the <em>worst</em> on
+      consistency. The model with the highest mean safety alignment (MSA 59%) had the highest
+      inconsistency rate (IIR <span class="m">72.6%</span>).
+    </p>
+    <aside class="note">
+      Safety alignment and behavioural consistency are independent properties. A single safety
+      score tells you how often a model refuses, not whether it refuses the <em>same thing</em>
+      twice. Both matter, and only one of them is usually measured.
+    </aside>
+
+    <h2>Models evaluated</h2>
+    <p>Claude, GPT-4o, DeepSeek, Mistral and Qwen, each through its own production API.</p>
+    <p>The thesis ships with full reproducibility documentation.</p>
+  </div>
+
+  <div class="tags tags-lg">
+    <span class="tag">Benchmark design</span><span class="tag">MITRE ATT&amp;CK</span>
+    <span class="tag">G-EVAL</span><span class="tag">Multi-agent</span><span class="tag">Python</span>
+    <span class="tag">Responsible AI</span>
+  </div>
+
+  <nav class="pager">
+    <a href="firewall.html"><svg aria-hidden="true"><use href="#i-back"/></svg> Prompt Firewall</a>
+    <a href="work.html">All work <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  </nav>
+
+</main>
+
+<div class="palette-backdrop" id="palette-backdrop"></div>
+<div class="palette" id="palette" role="dialog" aria-modal="true" aria-label="Search this site">
+  <input class="palette-input" id="palette-input" type="text" autocomplete="off" spellcheck="false"
+         placeholder="Search the site. Try &ldquo;what is live&rdquo;">
+  <div class="palette-list" id="palette-list"></div>
+  <div class="palette-foot">
+    <span><kbd>&#8593;</kbd><kbd>&#8595;</kbd> move</span><span><kbd>&#8629;</kbd> open</span><span><kbd>esc</kbd> close</span>
+  </div>
+</div>
+
+<script src="./js/site.js?v=3"></script>
+</body>
+</html>

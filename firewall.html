@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt Firewall · Tanishq Dahiya</title>
+<meta name="description" content="Real-time prompt injection detection: a sub-millisecond regex pass, then an LLM classifier only on genuine ambiguity. FastAPI, tested, with CI.">
+<meta name="color-scheme" content="dark light">
+<meta property="og:title" content="Prompt Firewall · Tanishq Dahiya">
+<meta property="og:description" content="Real-time prompt injection detection: a sub-millisecond regex pass, then an LLM classifier only on genuine ambiguity. FastAPI, tested, with CI.">
+<meta property="og:type" content="website">
+<script>
+  try {
+    var t = localStorage.getItem('theme');
+    document.documentElement.setAttribute('data-theme',
+      t || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/tokens.css?v=3">
+<link rel="stylesheet" href="./css/style.css?v=3">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23008BF8'/><text x='16' y='23' font-family='monospace' font-size='19' font-weight='600' fill='%23fff' text-anchor='middle'>T</text></svg>">
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="grid-bg" aria-hidden="true"></div>
+<div class="grid-glow" aria-hidden="true"></div>
+
+  <nav class="nav" aria-label="Primary">
+    <a class="nav-mark" href="index.html"><span class="dot"></span><span>TANISHQ.AI</span></a>
+    <span class="nav-sep"></span>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Index</a>
+      <a class="nav-link" href="work.html" aria-current="true">Work</a>
+      <a class="nav-link" href="stack.html">Stack</a>
+    </div>
+    <span class="nav-sep"></span>
+    <div class="nav-tools">
+      <button class="icon-btn" id="open-palette" aria-label="Search and jump (Control K)" title="Search — &#8984;K">
+        <svg aria-hidden="true"><use href="#i-search"/></svg>
+      </button>
+      <button class="icon-btn" id="theme-toggle" aria-label="Switch colour theme" title="Switch theme">
+        <svg aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </nav>
+
+<main class="page narrow" id="main">
+  <a class="back" href="work.html"><svg aria-hidden="true"><use href="#i-back"/></svg> All work</a>
+
+  <header class="prose-head" data-job="measured">
+    <span class="eyebrow">Shipped &#183; security</span>
+    <h1>Prompt Firewall</h1>
+    <p class="prose-lede">Real-time prompt injection detection that sits between your users and your LLM. Every input is classified in milliseconds: safe ones pass straight through, injections are blocked before they reach the model.</p>
+    <div class="cta-row">
+      <a class="btn btn-solid" href="https://prompt-firewall-kdwm.onrender.com" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-ext"/></svg> Live demo</a>
+      <a class="btn" href="https://github.com/TDahiya/prompt-firewall" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-github"/></svg> Source</a>
+    </div>
+  </header>
+
+  <div class="prose">
+    <h2>Two layers, and the ordering is the point</h2>
+    <p>
+      The first layer is a sub-millisecond regex pass. It catches known injection signatures
+      (<em>"ignore previous instructions"</em>, <em>"you are now [role]"</em>), base64 blobs and
+      Unicode homoglyphs, and it blocks on certainty alone.
+    </p>
+    <p>
+      Anything it is unsure about falls through to an LLM classifier with structured output,
+      returning a verdict, a category and a confidence score. Above the confidence threshold the
+      request is blocked; below it, it passes.
+    </p>
+    <aside class="note">
+      The cheap layer absorbs the common case so the expensive one is never spent on traffic that
+      was obviously fine. Put the classifier first and you pay roughly 300ms and an API call on
+      every single request, including the overwhelming majority a regex would have cleared instantly.
+    </aside>
+
+    <h2>What is in the repo</h2>
+    <p>
+      FastAPI, a Postgres schema for logging verdicts, a small frontend for trying it by hand,
+      a Dockerfile, and a test suite covering both the pattern layer and the API surface, wired
+      to CI.
+    </p>
+  </div>
+
+  <figure class="figure reveal">
+    <svg viewBox="0 0 640 112" role="img" aria-labelledby="fw-fig-t">
+      <title id="fw-fig-t">Two-layer prompt filter: a fast regex pass blocks certain injections,
+        and only ambiguous input reaches the slower classifier.</title>
+      <rect class="d-box" x="8" y="40" width="72" height="30" rx="5"/>
+      <text class="d-txt" x="44" y="59" text-anchor="middle">input</text>
+      <path class="d-line d-accent" d="M80 55 h26"/>
+      <rect class="d-box" x="106" y="34" width="150" height="42" rx="5"/>
+      <text class="d-txt" x="181" y="51" text-anchor="middle">layer 1 &#183; regex</text>
+      <text class="d-sub" x="181" y="65" text-anchor="middle">&lt; 1ms &#183; signatures, base64, homoglyphs</text>
+      <path class="d-line d-live" d="M181 34 v-20 h150"/>
+      <text class="d-sub" x="250" y="10" text-anchor="middle">certain</text>
+      <path class="d-line" d="M256 55 h30"/>
+      <text class="d-sub" x="271" y="48" text-anchor="middle">unsure</text>
+      <rect class="d-box" x="286" y="34" width="150" height="42" rx="5"/>
+      <text class="d-txt" x="361" y="51" text-anchor="middle">layer 2 &#183; classifier</text>
+      <text class="d-sub" x="361" y="65" text-anchor="middle">verdict &#183; category &#183; confidence</text>
+      <path class="d-line d-live" d="M361 34 v-20 h-30"/>
+      <path class="d-line d-measured" d="M436 55 h40"/>
+      <rect class="d-box" x="331" y="2" width="84" height="24" rx="5"/>
+      <rect x="331" y="2" width="3" height="24" rx="1.5" class="d-fill-live"/>
+      <text class="d-txt" x="373" y="17" text-anchor="middle">blocked</text>
+      <rect class="d-box" x="476" y="40" width="80" height="30" rx="5"/>
+      <rect x="476" y="40" width="3" height="30" rx="1.5" class="d-fill-measured"/>
+      <text class="d-txt" x="516" y="59" text-anchor="middle">passed</text>
+      <path class="d-line d-measured" d="M556 55 h24"/>
+      <text class="d-sub" x="606" y="58" text-anchor="middle">your LLM</text>
+    </svg>
+    <figcaption>Cheap first, expensive only on doubt. The ordering is the design.</figcaption>
+  </figure>
+
+  <div class="tags tags-lg">
+    <span class="tag">FastAPI</span><span class="tag">Python</span><span class="tag">Docker</span>
+    <span class="tag">Postgres</span><span class="tag">CI</span>
+  </div>
+
+  <nav class="pager">
+    <a href="rag.html"><svg aria-hidden="true"><use href="#i-back"/></svg> Hybrid RAG</a>
+    <a href="isce.html">Next: ISCE research <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  </nav>
+
+</main>
+
+<div class="palette-backdrop" id="palette-backdrop"></div>
+<div class="palette" id="palette" role="dialog" aria-modal="true" aria-label="Search this site">
+  <input class="palette-input" id="palette-input" type="text" autocomplete="off" spellcheck="false"
+         placeholder="Search the site. Try &ldquo;what is live&rdquo;">
+  <div class="palette-list" id="palette-list"></div>
+  <div class="palette-foot">
+    <span><kbd>&#8593;</kbd><kbd>&#8595;</kbd> move</span><span><kbd>&#8629;</kbd> open</span><span><kbd>esc</kbd> close</span>
+  </div>
+</div>
+
+<script src="./js/site.js?v=3"></script>
+</body>
+</html>

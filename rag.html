@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hybrid RAG · Tanishq Dahiya</title>
+<meta name="description" content="Hybrid BM25 and dense retrieval over EU and Irish law, fused with Reciprocal Rank Fusion, with a measured evaluation layer that deleted one of the project's own features.">
+<meta name="color-scheme" content="dark light">
+<meta property="og:title" content="Hybrid RAG · Tanishq Dahiya">
+<meta property="og:description" content="Hybrid BM25 and dense retrieval over EU and Irish law, fused with Reciprocal Rank Fusion, with a measured evaluation layer that deleted one of the project's own features.">
+<meta property="og:type" content="website">
+<script>
+  try {
+    var t = localStorage.getItem('theme');
+    document.documentElement.setAttribute('data-theme',
+      t || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/tokens.css?v=3">
+<link rel="stylesheet" href="./css/style.css?v=3">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23008BF8'/><text x='16' y='23' font-family='monospace' font-size='19' font-weight='600' fill='%23fff' text-anchor='middle'>T</text></svg>">
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="grid-bg" aria-hidden="true"></div>
+<div class="grid-glow" aria-hidden="true"></div>
+
+  <nav class="nav" aria-label="Primary">
+    <a class="nav-mark" href="index.html"><span class="dot"></span><span>TANISHQ.AI</span></a>
+    <span class="nav-sep"></span>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Index</a>
+      <a class="nav-link" href="work.html" aria-current="true">Work</a>
+      <a class="nav-link" href="stack.html">Stack</a>
+    </div>
+    <span class="nav-sep"></span>
+    <div class="nav-tools">
+      <button class="icon-btn" id="open-palette" aria-label="Search and jump (Control K)" title="Search — &#8984;K">
+        <svg aria-hidden="true"><use href="#i-search"/></svg>
+      </button>
+      <button class="icon-btn" id="theme-toggle" aria-label="Switch colour theme" title="Switch theme">
+        <svg aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </nav>
+
+<main class="page narrow" id="main">
+  <a class="back" href="work.html"><svg aria-hidden="true"><use href="#i-back"/></svg> All work</a>
+
+  <header class="prose-head" data-job="shipped">
+    <span class="eyebrow">Shipped &#183; retrieval</span>
+    <h1>Hybrid RAG over EU &amp; Irish law</h1>
+    <p class="prose-lede">A retrieval pipeline over EU technology regulation and Irish immigration law, with an evaluation layer that measures retrieval accuracy, faithfulness and hallucination rate.</p>
+    <div class="cta-row">
+      <a class="btn btn-solid" href="https://eu-irish-law-rag.onrender.com" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-ext"/></svg> Live demo</a>
+      <a class="btn" href="https://github.com/TDahiya/eu-irish-legal-rag" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-github"/></svg> Source &amp; eval report</a>
+    </div>
+  </header>
+
+  <div class="prose">
+    <h2>Two incompatible question shapes</h2>
+    <p>
+      <em>"AI Act Article 6(2)"</em> and <em>"Stamp 1G"</em> need exact tokens, because embeddings
+      blur an article number into its neighbours. <em>"Can my spouse work on a Critical Skills
+      permit"</em> shares no vocabulary at all with the statute that answers it.
+    </p>
+    <p>
+      So both retrievers run, and Reciprocal Rank Fusion merges them using ranks rather than
+      scores, which means two incompatible scales never have to be normalised against each other.
+      BM25 comes from SQLite FTS5, which ships in the standard library with a built-in
+      <code>bm25()</code> ranking function, so lexical search costs zero dependencies and zero RAM.
+    </p>
+
+    <div class="numbers">
+      <div><span class="n">93.3%</span><span class="l">hybrid recall@10</span></div>
+      <div><span class="n">91.7%</span><span class="l">BM25 alone</span></div>
+      <div><span class="n">86.7%</span><span class="l">dense alone</span></div>
+      <div><span class="n">80&#8594;100%</span><span class="l">multi-hop recall</span></div>
+    </div>
+
+    <h2>Abstention is measured, not hoped for</h2>
+    <p>
+      Ten of the 68 evaluation questions have no answer in the corpus, built from real traps.
+      Ask for the minimum salary threshold for an Irish EU Blue Card and there isn't one, because
+      Ireland has a Title V opt-out and is not bound by the Blue Card Directive. A system that
+      answers confidently is hallucinating, and the only way to know is to ask it. Every chunk
+      carries an <code>ireland_bound</code> flag, and instruments that do not bind Ireland are
+      labelled inline in the prompt context.
+    </p>
+    <p>
+      <span class="m">95.2%</span> faithfulness, <span class="m">4.8%</span> hallucination, and
+      <span class="m">100%</span> of citations resolving to a real source.
+    </p>
+
+    <h2>The evaluation deleted one of this project's own features</h2>
+    <p>
+      A retry gate fired whenever an answer's grounding score fell below 0.45, on the theory that
+      a quality measurement should change the output rather than just be displayed. Measuring it
+      killed it.
+    </p>
+    <p>
+      Across 36 evaluated answers grounding ran 0.68 to 0.96, so the retry <strong>never fired
+      once</strong>. Worse, splitting those answers at the median, the <em>lower</em>-grounding
+      half scored <span class="m">98.2%</span> faithfulness against <span class="m">91.7%</span>
+      for the upper half. The signal is inversely related to the thing it was gating on: an answer
+      that paraphrases a statute in plain English scores lower on similarity than one that copies
+      its wording, while being just as accurate.
+    </p>
+    <aside class="note">
+      No threshold fixes that, so the retry is gone rather than retuned, and nothing replaced it,
+      because there is no evidence yet that a replacement would help. What survives is the part
+      that <em>is</em> measured: the multi-search loop, which takes multi-hop recall from 80% to 100%.
+    </aside>
+  </div>
+
+  <figure class="figure reveal">
+    <svg viewBox="0 0 640 150" role="img" aria-labelledby="rag-fig-t">
+      <title id="rag-fig-t">Hybrid retrieval: one query fans out to BM25 and dense search,
+        whose ranked lists are fused by Reciprocal Rank Fusion before generation.</title>
+      <rect class="d-box" x="8" y="58" width="76" height="30" rx="5"/>
+      <text class="d-txt" x="46" y="77" text-anchor="middle">question</text>
+      <path class="d-line d-accent" d="M84 73 h26 v-38 h28"/>
+      <path class="d-line d-accent" d="M84 73 h26 v38 h28"/>
+      <rect class="d-box" x="138" y="20" width="134" height="30" rx="5"/>
+      <text class="d-txt" x="205" y="33" text-anchor="middle">BM25 &#183; SQLite FTS5</text>
+      <text class="d-sub" x="205" y="45" text-anchor="middle">exact tokens, citations</text>
+      <rect class="d-box" x="138" y="96" width="134" height="30" rx="5"/>
+      <text class="d-txt" x="205" y="109" text-anchor="middle">dense &#183; FAISS</text>
+      <text class="d-sub" x="205" y="121" text-anchor="middle">meaning, paraphrase</text>
+      <path class="d-line" d="M272 35 h30 v30 h18"/>
+      <path class="d-line" d="M272 111 h30 v-30 h18"/>
+      <rect class="d-box" x="320" y="58" width="92" height="30" rx="5"/>
+      <rect x="320" y="58" width="3" height="30" rx="1.5" class="d-fill-accent"/>
+      <text class="d-txt" x="368" y="71" text-anchor="middle">RRF fusion</text>
+      <text class="d-sub" x="368" y="83" text-anchor="middle">ranks, not scores</text>
+      <path class="d-line d-measured" d="M412 73 h28"/>
+      <rect class="d-box" x="440" y="44" width="110" height="30" rx="5"/>
+      <text class="d-txt" x="495" y="63" text-anchor="middle">grounded answer</text>
+      <rect class="d-box" x="440" y="82" width="110" height="30" rx="5"/>
+      <rect x="440" y="82" width="3" height="30" rx="1.5" class="d-fill-measured"/>
+      <text class="d-txt" x="495" y="96" text-anchor="middle">or abstains</text>
+      <text class="d-sub" x="495" y="107" text-anchor="middle">8 of 10 trap questions</text>
+      <path class="d-line d-measured" d="M550 73 h30"/>
+      <text class="d-sub" x="616" y="64" text-anchor="middle">recall@10</text>
+      <text class="d-txt d-fill-measured" x="616" y="78" text-anchor="middle">93.3%</text>
+    </svg>
+    <figcaption>
+      Ten of the 68 evaluation questions have no answer in the corpus. Ireland's Blue Card salary
+      threshold does not exist, because Ireland opted out. Abstention is a measured metric, not a hope.
+    </figcaption>
+  </figure>
+
+  <div class="tags tags-lg">
+    <span class="tag">BM25 / FTS5</span><span class="tag">FAISS</span><span class="tag">RRF</span>
+    <span class="tag">Python</span><span class="tag">Evaluation</span>
+  </div>
+
+  <nav class="pager">
+    <a href="kaia.html"><svg aria-hidden="true"><use href="#i-back"/></svg> Kaia</a>
+    <a href="firewall.html">Next: Prompt Firewall <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  </nav>
+
+</main>
+
+<div class="palette-backdrop" id="palette-backdrop"></div>
+<div class="palette" id="palette" role="dialog" aria-modal="true" aria-label="Search this site">
+  <input class="palette-input" id="palette-input" type="text" autocomplete="off" spellcheck="false"
+         placeholder="Search the site. Try &ldquo;what is live&rdquo;">
+  <div class="palette-list" id="palette-list"></div>
+  <div class="palette-foot">
+    <span><kbd>&#8593;</kbd><kbd>&#8595;</kbd> move</span><span><kbd>&#8629;</kbd> open</span><span><kbd>esc</kbd> close</span>
+  </div>
+</div>
+
+<script src="./js/site.js?v=3"></script>
+</body>
+</html>

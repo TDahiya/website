@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kaia · Tanishq Dahiya</title>
+<meta name="description" content="A production AI assistant with text, browser voice and real phone calls. Claude tool-calling, a sandboxed pandas path instead of RAG, and 0.20s first-audio voice.">
+<meta name="color-scheme" content="dark light">
+<meta property="og:title" content="Kaia · Tanishq Dahiya">
+<meta property="og:description" content="A production AI assistant with text, browser voice and real phone calls. Claude tool-calling, a sandboxed pandas path instead of RAG, and 0.20s first-audio voice.">
+<meta property="og:type" content="website">
+<script>
+  try {
+    var t = localStorage.getItem('theme');
+    document.documentElement.setAttribute('data-theme',
+      t || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/tokens.css?v=3">
+<link rel="stylesheet" href="./css/style.css?v=3">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23008BF8'/><text x='16' y='23' font-family='monospace' font-size='19' font-weight='600' fill='%23fff' text-anchor='middle'>T</text></svg>">
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="grid-bg" aria-hidden="true"></div>
+<div class="grid-glow" aria-hidden="true"></div>
+
+  <nav class="nav" aria-label="Primary">
+    <a class="nav-mark" href="index.html"><span class="dot"></span><span>TANISHQ.AI</span></a>
+    <span class="nav-sep"></span>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Index</a>
+      <a class="nav-link" href="work.html" aria-current="true">Work</a>
+      <a class="nav-link" href="stack.html">Stack</a>
+    </div>
+    <span class="nav-sep"></span>
+    <div class="nav-tools">
+      <button class="icon-btn" id="open-palette" aria-label="Search and jump (Control K)" title="Search — &#8984;K">
+        <svg aria-hidden="true"><use href="#i-search"/></svg>
+      </button>
+      <button class="icon-btn" id="theme-toggle" aria-label="Switch colour theme" title="Switch theme">
+        <svg aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </nav>
+
+<main class="page narrow" id="main">
+  <a class="back" href="work.html"><svg aria-hidden="true"><use href="#i-back"/></svg> All work</a>
+
+  <header class="prose-head" data-job="live">
+    <span class="eyebrow">Live &#183; personal project</span>
+    <h1>Kaia</h1>
+    <p class="prose-lede">A personal AI assistant running in production, not on a laptop. Text chat, browser voice, and real inbound and outbound phone calls, with Claude tool-calling across Google Calendar, Gmail and a Sheets CRM.</p>
+    <div class="cta-row">
+      <a class="btn btn-live" href="https://kaia-ai.duckdns.org/try" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-ext"/></svg> Talk to Kaia</a>
+      <a class="btn" href="https://github.com/TDahiya/kaia" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-github"/></svg> Source</a>
+    </div>
+  </header>
+
+  <div class="prose">
+    <p>
+      Sixteen tools across Google Calendar, Gmail and a Sheets CRM, Postgres with row-level
+      security on every table, and per-provider cost tracking. About <strong>10,000 lines</strong>
+      across FastAPI and Next.js 15, on a Hetzner VPS behind Caddy.
+    </p>
+
+    <h2>Spreadsheets do not touch the retrieval path</h2>
+    <p>
+      Ask for a total over &euro;5,000 and a vector search returns rows that <em>look</em> like the
+      answer, so the model invents a confident number. Retrieval is the wrong tool for arithmetic.
+    </p>
+    <p>
+      Instead the model inspects the real schema, writes pandas, and the code runs in an isolated
+      subprocess as an unprivileged user under CPU, memory, file-descriptor and process limits.
+      The number is computed, not recalled.
+    </p>
+    <aside class="note">
+      The process limit cannot be zero. Root ignores it but an unprivileged child does not, so
+      OpenBLAS fails to start its threads and <code>import pandas</code> dies before any model-written
+      code runs. It is capped at 64 instead, which still bounds a fork bomb.
+    </aside>
+
+    <h2>Voice: 0.20s to first audio</h2>
+    <p>
+      It used to sound like stitched-together clips, because every sentence was its own HTTPS
+      request with a fresh TLS handshake and its own intonation curve. Now one WebSocket stays
+      open and LLM tokens stream straight into it. First audio at <span class="m">0.20s</span>,
+      one continuous voice.
+    </p>
+    <p>
+      Turn-taking was the harder bug. It keyed off <code class="m">is_final</code>, which only
+      means a chunk will not be revised, so it fires mid-sentence and Kaia kept answering
+      fragments of my own sentences. <code class="m">speech_final</code> fixed it. Two hours of
+      confusion, one word of difference.
+    </p>
+
+    <h2>Safe enough to hand to a stranger</h2>
+    <p>
+      Per-person revocable access codes with message and call quotas, a restricted guest tool
+      allowlist, Fernet-encrypted OAuth tokens, outbound calls hard-locked to a single number,
+      and a daily spend ceiling. All of it enforced in code rather than in a prompt, because a
+      prompt is the first thing a visitor attacks.
+    </p>
+  </div>
+
+  <figure class="figure reveal">
+    <svg viewBox="0 0 640 188" role="img" aria-labelledby="kaia-fig-t">
+      <title id="kaia-fig-t">Kaia request flow: three channels into one FastAPI core, which routes
+        spreadsheet work to a sandboxed subprocess and everything else to tools.</title>
+      <rect class="d-box" x="8"  y="18" width="96" height="26" rx="5"/>
+      <text class="d-txt" x="56" y="35" text-anchor="middle">text chat</text>
+      <rect class="d-box" x="8"  y="54" width="96" height="26" rx="5"/>
+      <text class="d-txt" x="56" y="71" text-anchor="middle">browser voice</text>
+      <rect class="d-box" x="8"  y="90" width="96" height="26" rx="5"/>
+      <text class="d-txt" x="56" y="107" text-anchor="middle">phone call</text>
+      <text class="d-sub" x="56" y="132" text-anchor="middle">Telnyx + Deepgram</text>
+      <path class="d-line d-accent" d="M104 31 h30 v36 h22"/>
+      <path class="d-line d-accent" d="M104 67 h52"/>
+      <path class="d-line d-accent" d="M104 103 h30 v-36 h22"/>
+      <rect class="d-box" x="156" y="40" width="112" height="54" rx="6"/>
+      <text class="d-txt" x="212" y="62" text-anchor="middle">FastAPI core</text>
+      <text class="d-sub" x="212" y="78" text-anchor="middle">model routing</text>
+      <path class="d-line" d="M268 54 h28 v-24 h34"/>
+      <path class="d-line" d="M268 80 h28 v38 h34"/>
+      <text class="d-sub" x="300" y="24">tabular?  yes</text>
+      <text class="d-sub" x="300" y="140">no</text>
+      <rect class="d-box" x="330" y="16" width="128" height="30" rx="5"/>
+      <text class="d-txt" x="394" y="29" text-anchor="middle">model writes pandas</text>
+      <text class="d-sub" x="394" y="41" text-anchor="middle">against the real schema</text>
+      <path class="d-line d-measured" d="M458 31 h26"/>
+      <rect class="d-box" x="484" y="14" width="148" height="34" rx="5"/>
+      <rect x="484" y="14" width="3" height="34" rx="1.5" class="d-fill-measured"/>
+      <text class="d-txt" x="562" y="28" text-anchor="middle">sandboxed subprocess</text>
+      <text class="d-sub" x="562" y="40" text-anchor="middle">unprivileged &#183; rlimits &#183; 10s CPU</text>
+      <rect class="d-box" x="330" y="104" width="128" height="30" rx="5"/>
+      <text class="d-txt" x="394" y="117" text-anchor="middle">tool loop</text>
+      <text class="d-sub" x="394" y="129" text-anchor="middle">16 tools &#183; confirm on write</text>
+      <path class="d-line d-accent" d="M458 119 h26"/>
+      <rect class="d-box" x="484" y="102" width="148" height="34" rx="5"/>
+      <rect x="484" y="102" width="3" height="34" rx="1.5" class="d-fill-accent"/>
+      <text class="d-txt" x="562" y="116" text-anchor="middle">Calendar &#183; Gmail &#183; CRM</text>
+      <text class="d-sub" x="562" y="128" text-anchor="middle">OAuth, Fernet at rest</text>
+      <rect class="d-box" x="156" y="150" width="476" height="28" rx="5" stroke-dasharray="3 3"/>
+      <rect x="156" y="150" width="3" height="28" rx="1.5" class="d-fill-live"/>
+      <text class="d-txt" x="394" y="168" text-anchor="middle">guest pass &#183; revocable code &#183; quota &#183; restricted allowlist &#183; daily spend ceiling</text>
+    </svg>
+    <figcaption>
+      The guest fence is why I can hand a stranger a code: the limits live in code, not in the
+      prompt, because a prompt is the first thing a visitor attacks.
+    </figcaption>
+  </figure>
+
+  <div class="tags tags-lg">
+    <span class="tag">FastAPI</span><span class="tag">Claude</span><span class="tag">Next.js 15</span>
+    <span class="tag">Deepgram</span><span class="tag">Telnyx</span><span class="tag">Supabase</span>
+    <span class="tag">WebSockets</span><span class="tag">Docker</span><span class="tag">Hetzner</span>
+  </div>
+
+  <nav class="pager">
+    <a href="work.html"><svg aria-hidden="true"><use href="#i-back"/></svg> All work</a>
+    <a href="rag.html">Next: Hybrid RAG <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  </nav>
+
+</main>
+
+<div class="palette-backdrop" id="palette-backdrop"></div>
+<div class="palette" id="palette" role="dialog" aria-modal="true" aria-label="Search this site">
+  <input class="palette-input" id="palette-input" type="text" autocomplete="off" spellcheck="false"
+         placeholder="Search the site. Try &ldquo;what is live&rdquo;">
+  <div class="palette-list" id="palette-list"></div>
+  <div class="palette-foot">
+    <span><kbd>&#8593;</kbd><kbd>&#8595;</kbd> move</span><span><kbd>&#8629;</kbd> open</span><span><kbd>esc</kbd> close</span>
+  </div>
+</div>
+
+<script src="./js/site.js?v=3"></script>
+</body>
+</html>

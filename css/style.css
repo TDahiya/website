@@ -492,3 +492,111 @@ kbd {
   .nav-link { padding: var(--sp-h) var(--sp-1); }
   .skill { grid-template-columns: 1fr 64px; }
 }
+
+/* ============================================================================
+   MULTI-PAGE ADDITIONS
+   Page headers, project prose, pull-quotes, number rows and pagers.
+   ============================================================================ */
+
+.page.narrow { max-width: 860px; }
+
+.page-head { padding-top: var(--sp-6); margin-bottom: var(--sp-8); }
+.page-head h1 { font-size: var(--fs-h1); margin-bottom: var(--sp-2); }
+.page-head p { color: var(--text-muted); font-size: var(--fs-lead); max-width: 56ch; }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: var(--sp-1);
+  font-family: var(--font-mono); font-size: var(--fs-micro);
+  letter-spacing: var(--tr-wide); text-transform: uppercase;
+  color: var(--text-faint); margin-bottom: var(--sp-2);
+}
+.eyebrow::before { content: ''; width: var(--sp-3); height: 1px; background: var(--line-strong); }
+
+/* back to the index of work */
+.back {
+  display: inline-flex; align-items: center; gap: var(--sp-h);
+  font-size: var(--fs-small); font-weight: 500; color: var(--text-faint);
+  margin-bottom: var(--sp-5);
+}
+.back:hover { color: var(--accent); text-decoration: none; }
+.back svg { width: 14px; height: 14px; }
+
+/* project page header, tinted by its job colour */
+.prose-head { margin-bottom: var(--sp-8); }
+.prose-head[data-job="live"]     { --job: var(--live); }
+.prose-head[data-job="shipped"]  { --job: var(--accent); }
+.prose-head[data-job="measured"] { --job: var(--measured); }
+.prose-head[data-job="research"] { --job: var(--research); }
+.prose-head .eyebrow { color: var(--job, var(--text-faint)); }
+.prose-head .eyebrow::before { background: var(--job, var(--line-strong)); }
+.prose-head h1 { margin-bottom: var(--sp-3); }
+.prose-lede {
+  font-size: var(--fs-lead); color: var(--text-muted);
+  max-width: 60ch; margin-bottom: var(--sp-5);
+}
+
+/* the body copy of a project page */
+.prose { max-width: 68ch; }
+.prose h2 {
+  font-size: var(--fs-h3); margin-top: var(--sp-8); margin-bottom: var(--sp-2);
+  padding-top: var(--sp-3); border-top: 1px solid var(--line);
+}
+.prose h2:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.prose p { color: var(--text-muted); margin-bottom: var(--sp-2); }
+.prose p strong { color: var(--text); font-weight: 600; }
+.prose code {
+  font-family: var(--font-mono); font-size: .9em;
+  padding: 1px 5px; border-radius: 4px;
+  background: var(--bg-sunken); border: 1px solid var(--line);
+}
+
+/* an aside that carries the "why", set apart from the narrative */
+.note {
+  margin: var(--sp-3) 0; padding: var(--sp-3);
+  border-left: 2px solid var(--accent);
+  background: var(--bg-raised);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  color: var(--text-muted); font-size: var(--fs-small);
+}
+.note em { color: var(--text); }
+
+/* a row of headline figures inside prose */
+.numbers {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--sp-3); margin: var(--sp-4) 0;
+  padding: var(--sp-3) 0; border-block: 1px solid var(--line);
+}
+.numbers .n {
+  display: block; font-family: var(--font-mono); font-size: 1.25rem;
+  font-weight: 600; color: var(--measured); letter-spacing: var(--tr-tight);
+}
+.numbers .l {
+  display: block; margin-top: 2px;
+  font-size: var(--fs-micro); color: var(--text-faint);
+  letter-spacing: var(--tr-wide); text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+
+.tags-lg { margin-top: var(--sp-6); }
+
+.footnote {
+  margin-top: var(--sp-5); font-size: var(--fs-small);
+  color: var(--text-faint); max-width: 60ch;
+}
+
+/* previous / next across project pages */
+.pager {
+  display: flex; flex-wrap: wrap; gap: var(--sp-2);
+  justify-content: space-between;
+  margin-top: var(--sp-10); padding-top: var(--sp-3);
+  border-top: 1px solid var(--line);
+}
+.pager a {
+  display: inline-flex; align-items: center; gap: var(--sp-1);
+  font-size: var(--fs-small); font-weight: 500; color: var(--text-muted);
+}
+.pager a:hover { color: var(--accent); text-decoration: none; }
+.pager svg { width: 14px; height: 14px; }
+
+/* the stat tiles are links now, not buttons */
+a.stat:hover { text-decoration: none; }

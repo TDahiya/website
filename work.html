@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Work · Tanishq Dahiya</title>
+<meta name="description" content="Six projects: a production AI assistant, hybrid legal retrieval, a prompt-injection firewall, LLM safety research, a multi-agent researcher and a health risk classifier.">
+<meta name="color-scheme" content="dark light">
+<meta property="og:title" content="Work · Tanishq Dahiya">
+<meta property="og:description" content="Six projects: a production AI assistant, hybrid legal retrieval, a prompt-injection firewall, LLM safety research, a multi-agent researcher and a health risk classifier.">
+<meta property="og:type" content="website">
+<script>
+  try {
+    var t = localStorage.getItem('theme');
+    document.documentElement.setAttribute('data-theme',
+      t || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/tokens.css?v=3">
+<link rel="stylesheet" href="./css/style.css?v=3">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23008BF8'/><text x='16' y='23' font-family='monospace' font-size='19' font-weight='600' fill='%23fff' text-anchor='middle'>T</text></svg>">
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="grid-bg" aria-hidden="true"></div>
+<div class="grid-glow" aria-hidden="true"></div>
+
+  <nav class="nav" aria-label="Primary">
+    <a class="nav-mark" href="index.html"><span class="dot"></span><span>TANISHQ.AI</span></a>
+    <span class="nav-sep"></span>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Index</a>
+      <a class="nav-link" href="work.html" aria-current="true">Work</a>
+      <a class="nav-link" href="stack.html">Stack</a>
+    </div>
+    <span class="nav-sep"></span>
+    <div class="nav-tools">
+      <button class="icon-btn" id="open-palette" aria-label="Search and jump (Control K)" title="Search — &#8984;K">
+        <svg aria-hidden="true"><use href="#i-search"/></svg>
+      </button>
+      <button class="icon-btn" id="theme-toggle" aria-label="Switch colour theme" title="Switch theme">
+        <svg aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </nav>
+
+<main class="page" id="main">
+  <header class="section-head page-head">
+    <span class="eyebrow">Selected work</span>
+    <h1>Six projects</h1>
+    <p>Every number on these pages came out of a measurement I can show you.
+       Open one for the full write-up, the architecture and what went wrong first.</p>
+  </header>
+
+  <div class="bento">
+      <a class="tile lead reveal" data-job="live" href="kaia.html">
+        <span class="tile-art"><svg aria-hidden="true"><use href="#m-kaia"/></svg></span>
+        <span class="tile-body">
+          <span class="tile-top">
+            <h3>Kaia</h3>
+            <span class="tile-go"><svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </span>
+          <p>A personal assistant in production: text, browser voice and real inbound and outbound phone calls, with Claude tool-calling across Google Workspace and model-written pandas running in a sandboxed subprocess.</p>
+          <span class="tags"><span class="tag">FastAPI</span><span class="tag">Claude</span><span class="tag">Next.js</span><span class="tag">Deepgram</span><span class="tag">Telnyx</span><span class="tag">Hetzner</span></span>
+        </span>
+      </a>
+      <a class="tile reveal" data-job="shipped" href="rag.html">
+        <span class="tile-art"><svg aria-hidden="true"><use href="#m-rag"/></svg></span>
+        <span class="tile-body">
+          <span class="tile-top">
+            <h3>Hybrid RAG</h3>
+            <span class="tile-go"><svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </span>
+          <p>BM25 and dense retrieval over EU and Irish law, fused by rank.</p>
+        </span>
+      </a>
+      <a class="tile reveal" data-job="measured" href="firewall.html">
+        <span class="tile-art"><svg aria-hidden="true"><use href="#m-fire"/></svg></span>
+        <span class="tile-body">
+          <span class="tile-top">
+            <h3>Prompt Firewall</h3>
+            <span class="tile-go"><svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </span>
+          <p>Two-layer injection filter. Cheap first, expensive only on doubt.</p>
+        </span>
+      </a>
+      <a class="tile reveal" data-job="research" href="isce.html">
+        <span class="tile-art"><svg aria-hidden="true"><use href="#m-isce"/></svg></span>
+        <span class="tile-body">
+          <span class="tile-top">
+            <h3>ISCE</h3>
+            <span class="tile-go"><svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </span>
+          <p>MSc research: does LLM safety survive a rephrasing?</p>
+        </span>
+      </a>
+      <a class="tile reveal" data-job="shipped" href="https://research-agent-b8k4.onrender.com" target="_blank" rel="noopener">
+        <span class="tile-art"><svg aria-hidden="true"><use href="#m-agent"/></svg></span>
+        <span class="tile-body">
+          <span class="tile-top">
+            <h3>Research Agent</h3>
+            <span class="tile-go"><svg aria-hidden="true"><use href="#i-ext"/></svg></span>
+          </span>
+          <p>Three LangGraph agents with handoffs, behind a human approval gate.</p>
+        </span>
+      </a>
+      <a class="tile reveal" data-job="measured" href="https://healthriskscore.onrender.com/" target="_blank" rel="noopener">
+        <span class="tile-art"><svg aria-hidden="true"><use href="#m-health"/></svg></span>
+        <span class="tile-body">
+          <span class="tile-top">
+            <h3>Health Risk</h3>
+            <span class="tile-go"><svg aria-hidden="true"><use href="#i-ext"/></svg></span>
+          </span>
+          <p>Random Forest with SDV augmentation and a live probability dashboard.</p>
+        </span>
+      </a>
+  </div>
+
+  <p class="footnote">
+    The two demos above are on Render's free tier and sleep after 15 minutes idle, so a cold
+    first load takes about a minute to wake.
+  </p>
+
+</main>
+
+<div class="palette-backdrop" id="palette-backdrop"></div>
+<div class="palette" id="palette" role="dialog" aria-modal="true" aria-label="Search this site">
+  <input class="palette-input" id="palette-input" type="text" autocomplete="off" spellcheck="false"
+         placeholder="Search the site. Try &ldquo;what is live&rdquo;">
+  <div class="palette-list" id="palette-list"></div>
+  <div class="palette-foot">
+    <span><kbd>&#8593;</kbd><kbd>&#8595;</kbd> move</span><span><kbd>&#8629;</kbd> open</span><span><kbd>esc</kbd> close</span>
+  </div>
+</div>
+
+<script src="./js/site.js?v=3"></script>
+</body>
+</html>
